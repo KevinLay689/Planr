@@ -22,8 +22,22 @@ class MainActivity : AppCompatActivity() {
 
         mDrawerLayout = findViewById(R.id.drawer_layout)
 
+        setupToolbar()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                mDrawerLayout.openDrawer(GravityCompat.START)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun setupToolbar() {
         // Set up the toolbar.
-        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
@@ -34,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         navigationView.setCheckedItem(R.id.nav_home)
 
         val fragmentManager: FragmentManager = supportFragmentManager
-        fragmentManager.beginTransaction().add(R.id.frame, HomeFragment(), "homeFragment").commit()
+        fragmentManager.beginTransaction().add(R.id.frame, HomeFragment(), homeFragmentTag).commit()
 
         navigationView.setNavigationItemSelectedListener { menuItem ->
             // set item as selected to persist highlight
@@ -46,7 +60,9 @@ class MainActivity : AppCompatActivity() {
             // For example, swap UI fragments here
             when (menuItem.itemId) {
                 R.id.nav_home -> {
-
+                    if (fragmentManager.findFragmentByTag(homeFragmentTag) != null) {
+                        fragmentManager.beginTransaction().add(R.id.frame, HomeFragment(), homeFragmentTag).commit()
+                    }
                 }
                 R.id.nav_browse -> {
                     Toast.makeText(this, "browse clicked", Toast.LENGTH_SHORT).show()
@@ -57,16 +73,9 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                mDrawerLayout.openDrawer(GravityCompat.START)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+    companion object {
+        const val homeFragmentTag: String = "homeFragment"
     }
 }
