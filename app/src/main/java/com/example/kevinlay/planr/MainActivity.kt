@@ -3,12 +3,10 @@ package com.example.kevinlay.planr
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.v4.app.FragmentManager
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import com.example.kevinlay.planr.ui.HomeFragment
 
@@ -23,6 +21,8 @@ class MainActivity : AppCompatActivity() {
         mDrawerLayout = findViewById(R.id.drawer_layout)
 
         setupToolbar()
+
+        supportFragmentManager.beginTransaction().add(R.id.frame, HomeFragment(), homeFragmentTag).commit()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        // Set up the toolbar.
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
@@ -47,21 +46,15 @@ class MainActivity : AppCompatActivity() {
         val navigationView: NavigationView = findViewById(R.id.nav_view)
         navigationView.setCheckedItem(R.id.nav_home)
 
-        val fragmentManager: FragmentManager = supportFragmentManager
-        fragmentManager.beginTransaction().add(R.id.frame, HomeFragment(), homeFragmentTag).commit()
-
         navigationView.setNavigationItemSelectedListener { menuItem ->
-            // set item as selected to persist highlight
+
             menuItem.isChecked = true
-            // close drawer when item is tapped
             mDrawerLayout.closeDrawers()
 
-            // Add code here to update the UI based on the item selected
-            // For example, swap UI fragments here
             when (menuItem.itemId) {
                 R.id.nav_home -> {
-                    if (fragmentManager.findFragmentByTag(homeFragmentTag) != null) {
-                        fragmentManager.beginTransaction().add(R.id.frame, HomeFragment(), homeFragmentTag).commit()
+                    if (supportFragmentManager.findFragmentByTag(homeFragmentTag) != null) {
+                        supportFragmentManager.beginTransaction().add(R.id.frame, HomeFragment(), homeFragmentTag).commit()
                     }
                 }
                 R.id.nav_browse -> {

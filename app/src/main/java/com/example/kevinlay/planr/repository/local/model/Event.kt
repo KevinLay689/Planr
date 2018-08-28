@@ -8,7 +8,8 @@ import android.arch.persistence.room.PrimaryKey
  */
 @Entity(tableName = "events")
 data class Event(@PrimaryKey val eventId: String,
+                 val ownerId: String,
                  val eventName: String,
-                 val isActive: Boolean,
+                 val tripId: String,
                  val cost: Float,
                  val details: String)
