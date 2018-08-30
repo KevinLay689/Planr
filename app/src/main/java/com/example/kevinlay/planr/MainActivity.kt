@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_home -> {
                     if (supportFragmentManager.findFragmentByTag(homeFragmentTag) != null) {
-                        supportFragmentManager.beginTransaction().add(R.id.frame, HomeFragment(), homeFragmentTag).commit()
+                        supportFragmentManager.beginTransaction().replace(R.id.frame, HomeFragment(), homeFragmentTag).commit()
                     }
                 }
                 R.id.nav_browse -> {

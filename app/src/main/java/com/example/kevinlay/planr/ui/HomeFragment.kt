@@ -34,7 +34,6 @@ class HomeFragment: Fragment() {
         return view
     }
 
-
     fun createData(): List<Trip> {
         val user1 = User("1", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
         val user2 = User("2", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
@@ -59,16 +58,16 @@ class HomeFragment: Fragment() {
                 user9, user10, user11, user12,
                 user13, user14, user15, user16))
 
-        val trip2 = Trip("2", "1", ArrayList(), arrayListOf(user1, user2, user3, user4,
-                user5, user6, user7, user8,
-                user9, user10, user11, user12,
-                user13, user14, user15, user16))
+//        val trip2 = Trip("2", "1", ArrayList(), arrayListOf(user1, user2, user3, user4,
+//                user5, user6, user7, user8,
+//                user9, user10, user11, user12,
+//                user13, user14, user15, user16))
+//
+//        val trip3 = Trip("3", "1", ArrayList(), arrayListOf(user1, user2, user3, user4,
+//                user5, user6, user7, user8,
+//                user9, user10, user11, user12,
+//                user13, user14, user15, user16))
 
-        val trip3 = Trip("3", "1", ArrayList(), arrayListOf(user1, user2, user3, user4,
-                user5, user6, user7, user8,
-                user9, user10, user11, user12,
-                user13, user14, user15, user16))
-
-        return arrayListOf(trip, trip2, trip3)
+        return arrayListOf(trip)
     }
 }
