@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/mainImage"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
+
+        <TextView
+            android:id="@+id/headerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:text="Las Vegas 2018 Trip"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@id/mainImage"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <View
+            android:id="@+id/ls1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/headerText"/>
+
+        <TextView
+            android:id="@+id/tripDetailsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:text="Hosted By: "
+            android:textSize="12sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@id/ls1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ownerImage"/>
+
+        <ImageView
+            android:id="@+id/ownerImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_menu"
+            app:layout_constraintStart_toEndOf="@id/tripDetailsText"
+            app:layout_constraintTop_toBottomOf="@id/ls1"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/ls2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/ownerImage"/>
+
+        <TextView
+            android:id="@+id/activitiesText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Itinerary"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/ls2"
+            app:layout_constraintStart_toStartOf="@id/tripDetailsText" />
+
+        <TextView
+            android:id="@+id/morningLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Morning"
+            android:textColor="@android:color/black"
+            android:textStyle="italic"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/activitiesText"
+            app:layout_constraintStart_toStartOf="@id/tripDetailsText"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/ls3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/morningLabel"/>
+
+        <ImageView
+            android:id="@+id/placeholder1"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:layout_constraintTop_toBottomOf="@id/ls3"/>
+
+        <TextView
+            android:id="@+id/afternoonLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Afternoon"
+            android:textColor="@android:color/black"
+            android:textStyle="italic"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/placeholder1"
+            app:layout_constraintStart_toStartOf="@id/tripDetailsText"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/ls4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/afternoonLabel"/>
+
+        <ImageView
+            android:id="@+id/placeholder2"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:layout_constraintTop_toBottomOf="@id/ls4"/>
+
+        <TextView
+            android:id="@+id/nightLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Night"
+            android:textColor="@android:color/black"
+            android:textStyle="italic"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/placeholder2"
+            app:layout_constraintStart_toStartOf="@id/tripDetailsText"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/ls5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/nightLabel"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</ScrollView>
