@@ -31,6 +31,8 @@ class HomeFragment: Fragment() {
         tripsRecyclerView.adapter = adapter
         tripsRecyclerView.layoutManager = LinearLayoutManager(context)
 
+        setHasOptionsMenu(true)
+
         return view
     }
 
