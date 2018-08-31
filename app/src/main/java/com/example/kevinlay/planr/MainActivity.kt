@@ -6,6 +6,7 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.Toolbar
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.kevinlay.planr.ui.HomeFragment
@@ -33,6 +34,11 @@ class MainActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return true
     }
 
     private fun setupToolbar() {
