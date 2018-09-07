@@ -1,4 +1,4 @@
-package com.example.kevinlay.planr.repository.local.model
+package com.example.kevinlay.planr.repository.model
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey

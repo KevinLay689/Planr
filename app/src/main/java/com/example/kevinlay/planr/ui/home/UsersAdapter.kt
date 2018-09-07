@@ -9,7 +9,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.kevinlay.planr.R
-import com.example.kevinlay.planr.repository.local.model.User
+import com.example.kevinlay.planr.repository.model.User
 
 class UsersAdapter: RecyclerView.Adapter<UserViewHolder>() {
     var users: List<User> = ArrayList()

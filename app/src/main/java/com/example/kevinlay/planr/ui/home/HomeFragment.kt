@@ -9,9 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.kevinlay.planr.R
-import com.example.kevinlay.planr.repository.local.model.Trip
-import com.example.kevinlay.planr.repository.local.model.User
-import com.example.kevinlay.planr.ui.home.TripsAdapter
+import com.example.kevinlay.planr.repository.model.Trip
+import com.example.kevinlay.planr.repository.model.User
 
 /**
  * Created by kevinlay on 8/26/18.
@@ -37,39 +36,36 @@ class HomeFragment: Fragment() {
     }
 
     fun createData(): List<Trip> {
-        val user1 = User("1", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
-        val user2 = User("2", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
-        val user3 = User("3", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
-        val user4 = User("4", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
-        val user5 = User("5", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
-        val user6 = User("6", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
-        val user7 = User("7", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
-        val user8 = User("8", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
-
-        val user9 = User("9", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
-        val user10 = User("10", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
-        val user11 = User("11", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
-        val user12 = User("12", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
-        val user13 = User("13", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
-        val user14 = User("14", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
-        val user15 = User("15", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
-        val user16 = User("16", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
-
-        val trip = Trip("1", "1", ArrayList(), arrayListOf(user1, user2, user3, user4,
-                user5, user6, user7, user8,
-                user9, user10, user11, user12,
-                user13, user14, user15, user16))
+        val user1 = User("","","","", "", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
+//        val user2 = User("","","","", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
+//        val user3 = User("","","","", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
+//        val user4 = User("","","","", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
+//        val user5 = User("","","","", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
+//        val user6 = User("","","","", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
+//        val user7 = User("","","","", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
+//        val user8 = User("","","","", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
+//
+//        val user9 = User("","","","", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
+//        val user10 = User("","","","",BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
+//        val user11 = User("","","","", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
+//        val user12 = User("","","","", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
+//        val user13 = User("","","","", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
+//        val user14 = User("","","","", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
+//        val user15 = User("","","","", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
+//        val user16 = User("","","","", BitmapFactory.decodeResource(resources, R.drawable.ic_menu), ArrayList())
+//
+//        val trip = Trip("1", "1", ArrayList(), arrayListOf(user1, user2, user3, user4,
+//                user5, user6, user7, user8,
+//                user9, user10, user11, user12,
+//                user13, user14, user15, user16))
 
 //        val trip2 = Trip("2", "1", ArrayList(), arrayListOf(user1, user2, user3, user4,
 //                user5, user6, user7, user8,
 //                user9, user10, user11, user12,
 //                user13, user14, user15, user16))
 //
-//        val trip3 = Trip("3", "1", ArrayList(), arrayListOf(user1, user2, user3, user4,
-//                user5, user6, user7, user8,
-//                user9, user10, user11, user12,
-//                user13, user14, user15, user16))
+        val trip3 = Trip("3", "1", ArrayList(), arrayListOf(user1))
 
-        return arrayListOf(trip)
+        return arrayListOf(trip3)
     }
 }

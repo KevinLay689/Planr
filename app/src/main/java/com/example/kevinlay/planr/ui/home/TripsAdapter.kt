@@ -11,8 +11,8 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.kevinlay.planr.R
-import com.example.kevinlay.planr.repository.local.model.Trip
-import com.example.kevinlay.planr.repository.local.model.User
+import com.example.kevinlay.planr.repository.model.Trip
+import com.example.kevinlay.planr.repository.model.User
 
 class TripsAdapter(private val trips: List<Trip>): RecyclerView.Adapter<TripsViewHolder>() {
 
