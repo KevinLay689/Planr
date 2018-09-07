@@ -10,7 +10,8 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import com.example.kevinlay.planr.ui.HomeFragment
+import com.example.kevinlay.planr.ui.home.HomeFragment
+import com.example.kevinlay.planr.ui.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
@@ -66,16 +67,24 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 R.id.nav_browse -> {
-                    Toast.makeText(this, "browse clicked", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Browse clicked", Toast.LENGTH_SHORT).show()
                 }
                 R.id.nav_settings -> {
-                    FirebaseAuth.getInstance().signOut()
-                    val intent = Intent(this@MainActivity.baseContext, LoginActivity::class.java)
-                    startActivity(intent)
+                    Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show()
+                }
+
+                R.id.nav_signout -> {
+                    logout()
                 }
             }
             true
         }
+    }
+
+    private fun logout() {
+        FirebaseAuth.getInstance().signOut()
+        val intent = Intent(baseContext, LoginActivity::class.java)
+        startActivity(intent)
     }
 
     companion object {

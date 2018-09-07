@@ -1,6 +1,6 @@
 package com.example.kevinlay.planr.dagger
 
-import com.example.kevinlay.planr.ui.HomeFragment
+import com.example.kevinlay.planr.ui.home.HomeFragment
 import dagger.Component
 
 /**

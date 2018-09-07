@@ -1,4 +1,4 @@
-package com.example.kevinlay.planr.ui
+package com.example.kevinlay.planr.ui.home
 
 import android.graphics.BitmapFactory
 import android.os.Bundle

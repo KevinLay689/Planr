@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ProgressBar
-        android:id="@+id/progressBar3"
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -17,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:hint="first name"
+        android:hint="@string/first_name"
         android:inputType="textPersonName"/>
 
     <EditText
@@ -25,44 +23,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/loginFirstName"
-        android:hint="last name"
+        android:hint="@string/last_name"
         android:inputType="textPersonName"/>
 
     <EditText
-        android:id="@+id/loginHometown"
+        android:id="@+id/loginLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/loginLastName"
-        android:hint="hometown"
+        android:hint="@string/location"
         android:inputType="textPersonName"/>
 
     <EditText
-        android:id="@+id/loginMajor"
+        android:id="@+id/loginEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/loginHometown"
-        android:hint="major"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/loginUsername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/loginMajor"
-        android:hint="username"
-        android:inputType="textPersonName" />
+        android:layout_below="@+id/loginLocation"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/loginPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/loginUsername"
-        android:hint="password"
+        android:layout_below="@+id/loginEmail"
+        android:hint="@string/password"
         android:inputType="textPassword" />
 
     <Button
         android:id="@+id/createAccount"
-        android:text="create account"
+        android:text="@string/create_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" />
