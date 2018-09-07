@@ -1,5 +1,6 @@
 package com.example.kevinlay.planr
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -10,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.kevinlay.planr.ui.HomeFragment
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
@@ -67,7 +69,9 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "browse clicked", Toast.LENGTH_SHORT).show()
                 }
                 R.id.nav_settings -> {
-                    Toast.makeText(this, "settings clicked", Toast.LENGTH_SHORT).show()
+                    FirebaseAuth.getInstance().signOut()
+                    val intent = Intent(this@MainActivity.baseContext, LoginActivity::class.java)
+                    startActivity(intent)
                 }
             }
             true
