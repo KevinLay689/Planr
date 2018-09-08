@@ -6,11 +6,18 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import android.content.Intent
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.*
 import com.example.kevinlay.planr.MainActivity
+import com.example.kevinlay.planr.PlanrApplication
 import com.example.kevinlay.planr.R
+import com.example.kevinlay.planr.repository.remote.RemoteDbSource
+import com.example.kevinlay.planr.util.into
+import com.google.firebase.database.FirebaseDatabase
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 // TODO: Move register into here and just make them a single activity
 class LoginActivity : AppCompatActivity() {
@@ -21,13 +28,15 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var mProgressBar: ProgressBar
     private lateinit var mSignUp: TextView
 
-    private lateinit var mAuth: FirebaseAuth
+    @Inject lateinit var remoteDbSource: RemoteDbSource
+
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        mAuth = FirebaseAuth.getInstance()
+        (application as PlanrApplication).appComponent.inject(this)
 
         mEmail = findViewById(R.id.loginUsername)
         mPassword = findViewById(R.id.loginPassword)
@@ -41,11 +50,13 @@ class LoginActivity : AppCompatActivity() {
             val i = Intent(this@LoginActivity, RegisterActivity::class.java)
             startActivity(i)
         }
+
+        remoteDbSource = RemoteDbSource(FirebaseAuth.getInstance(), FirebaseDatabase.getInstance().reference)
     }
 
     override fun onStart() {
         super.onStart()
-        updateUI(mAuth.currentUser)
+        updateUI(remoteDbSource.firebaseAuth.currentUser)
     }
 
     private fun validateForm(): Boolean {
@@ -87,19 +98,23 @@ class LoginActivity : AppCompatActivity() {
 
         mProgressBar.visibility = View.VISIBLE
 
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        updateUI(FirebaseAuth.getInstance().currentUser)
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "signInWithEmail:failure", task.exception)
-                        Toast.makeText(this@LoginActivity, "Authentication failed.", Toast.LENGTH_SHORT).show()
-                        updateUI(null)
-                    }
+        remoteDbSource.signIn(email, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ user ->
+                    updateUI(user)
                     mProgressBar.visibility = View.INVISIBLE
-                }
+                }, { error ->
+                    showToast(error.message!!)
+                    mProgressBar.visibility = View.INVISIBLE
+                })
+                .into(compositeDisposable)
+    }
+
+    private fun showToast(msg: String) {
+        Toast.makeText(this@LoginActivity,
+                msg,
+                Toast.LENGTH_LONG).show()
     }
 
     companion object {

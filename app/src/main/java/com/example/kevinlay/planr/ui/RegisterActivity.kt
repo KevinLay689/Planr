@@ -9,19 +9,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.example.kevinlay.planr.PlanrApplication
 import com.example.kevinlay.planr.R
-import com.example.kevinlay.planr.repository.model.User
 import com.example.kevinlay.planr.repository.remote.RemoteDbSource
-import com.example.kevinlay.planr.util.RemoteDatabaseConstants
-import com.example.kevinlay.planr.util.*
+import com.example.kevinlay.planr.util.into
 
-import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -33,19 +29,15 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var mCreateAccount: Button
     private lateinit var mProgressBar: ProgressBar
 
-    private lateinit var remoteDbSource: RemoteDbSource
+    @Inject lateinit var remoteDbSource: RemoteDbSource
 
-    private lateinit var mAuth: FirebaseAuth
-    private lateinit var databaseReference: DatabaseReference
-
-    private val compositeDisposable: CompositeDisposable? = CompositeDisposable()
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        FirebaseApp.initializeApp(this)
-        databaseReference = FirebaseDatabase.getInstance().reference
+        (application as PlanrApplication).appComponent.inject(this)
 
         mFirstName = findViewById(R.id.loginFirstName)
         mLastName = findViewById(R.id.loginLastName)
@@ -63,9 +55,6 @@ class RegisterActivity : AppCompatActivity() {
                     mEmailField.text.toString(),
                     mPasswordField.text.toString())
         }
-        mAuth = FirebaseAuth.getInstance()
-
-        remoteDbSource = RemoteDbSource(mAuth, databaseReference)
     }
 
     private fun createAccount(firstName: String, lastName: String,
@@ -77,7 +66,7 @@ class RegisterActivity : AppCompatActivity() {
 
         mProgressBar.visibility = View.VISIBLE
 
-        remoteDbSource.createAccount(firstName, lastName, location, email, password)
+        remoteDbSource.createAccountAndInsertToDatabase(firstName, lastName, location, email, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({
@@ -96,19 +85,6 @@ class RegisterActivity : AppCompatActivity() {
                 msg,
                 Toast.LENGTH_LONG).show()
     }
-
-    private fun insertUserIntoDatabase(firstName: String,
-                                       lastName: String,
-                                       location: String,
-                                       email: String,
-                                       id: String) {
-        val user = User(id, firstName, lastName, location, email)
-
-        databaseReference.child(RemoteDatabaseConstants.usersColumn)
-                .child(id)
-                .setValue(user)
-    }
-
 
     private fun goToDashboard() {
         val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
