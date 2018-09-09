@@ -11,5 +11,7 @@ import com.example.kevinlay.planr.repository.model.User
  */
 @Database(entities = [(Event::class), (User::class), (Trip::class)], version = 2, exportSchema = false)
 abstract class LocalDatabase: RoomDatabase() {
+    abstract fun userDao(): UserDao
     abstract fun eventDao(): EventDao
+    abstract fun tripDao(): TripDao
 }

@@ -1,5 +1,6 @@
 package com.example.kevinlay.planr.dagger
 
+import com.example.kevinlay.planr.MainActivity
 import com.example.kevinlay.planr.ui.LoginActivity
 import com.example.kevinlay.planr.ui.RegisterActivity
 import com.example.kevinlay.planr.ui.home.HomeFragment
@@ -11,6 +12,7 @@ import dagger.Component
 @Component(modules = [(AppModule::class)])
 abstract class AppComponent {
     abstract fun inject(homeFragment: HomeFragment)
+    abstract fun inject(mainActivity: MainActivity)
     abstract fun inject(loginActivity: LoginActivity)
     abstract fun inject(registerActivity: RegisterActivity)
 }

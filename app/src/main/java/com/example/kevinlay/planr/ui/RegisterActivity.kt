@@ -11,8 +11,12 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import com.example.kevinlay.planr.PlanrApplication
 import com.example.kevinlay.planr.R
-import com.example.kevinlay.planr.repository.remote.RemoteDbSource
+import com.example.kevinlay.planr.repository.PlanRepository
+import com.example.kevinlay.planr.repository.local.LocalDataSource
+import com.example.kevinlay.planr.repository.model.User
+import com.example.kevinlay.planr.repository.remote.RemoteDataSource
 import com.example.kevinlay.planr.util.into
+import io.reactivex.Completable
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -29,7 +33,8 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var mCreateAccount: Button
     private lateinit var mProgressBar: ProgressBar
 
-    @Inject lateinit var remoteDbSource: RemoteDbSource
+    @Inject lateinit var planRepository: PlanRepository
+    @Inject lateinit var localDataSource: LocalDataSource
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
@@ -66,14 +71,14 @@ class RegisterActivity : AppCompatActivity() {
 
         mProgressBar.visibility = View.VISIBLE
 
-        remoteDbSource.createAccountAndInsertToDatabase(firstName, lastName, location, email, password)
+        planRepository.saveUser(firstName, lastName, location, email, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({
                     goToDashboard()
                     mProgressBar.visibility = View.INVISIBLE
                 }, { error ->
-                    showToast(error.message!!)
+                    showToast("Repo error: " + error.message!!)
                     mProgressBar.visibility = View.INVISIBLE
                 })
                 .into(compositeDisposable)

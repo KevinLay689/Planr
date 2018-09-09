@@ -12,8 +12,8 @@ import com.google.firebase.database.ValueEventListener
 import io.reactivex.Completable
 import io.reactivex.Single
 
-class RemoteDbSource(val firebaseAuth: FirebaseAuth,
-                     val databaseReference: DatabaseReference) {
+class RemoteDataSource(val firebaseAuth: FirebaseAuth,
+                       val databaseReference: DatabaseReference) {
 
     fun getUserTrips(userId: String): Single<List<Trip>> {
         return Single.create { emitter ->
@@ -59,16 +59,16 @@ class RemoteDbSource(val firebaseAuth: FirebaseAuth,
         }
     }
 
-    fun createAccountAndInsertToDatabase(firstName: String,
-                                         lastName: String,
-                                         location: String,
-                                         email: String,
-                                         password: String): Completable {
+    fun createAccountAndInsertToRemoteDatabase(firstName: String,
+                                               lastName: String,
+                                               location: String,
+                                               email: String,
+                                               password: String): Single<User> {
         return createAccount(email, password)
-                .concatWith(insertUserIntoDatabase(firstName, lastName, location, email))
+                .andThen(insertUserIntoDatabase(firstName, lastName, location, email))
     }
 
-    fun createAccount(email: String,
+    private fun createAccount(email: String,
                       password: String): Completable {
 
         return Completable.create { emitter ->
@@ -86,13 +86,13 @@ class RemoteDbSource(val firebaseAuth: FirebaseAuth,
     private fun insertUserIntoDatabase(firstName: String,
                                        lastName: String,
                                        location: String,
-                                       email: String) : Completable {
-        return Completable.create { emitter ->
+                                       email: String) : Single<User> {
+        return Single.create { emitter ->
             val user = User(firebaseAuth.currentUser?.uid!!, firstName, lastName, location, email)
 
             databaseReference.child(RemoteDatabaseConstants.usersColumn)
                     .child(firebaseAuth.currentUser?.uid!!)
-                    .setValue(user) { _, _ -> emitter.onComplete() }
+                    .setValue(user) { _, _ -> emitter.onSuccess(user) }
         }
     }
 }

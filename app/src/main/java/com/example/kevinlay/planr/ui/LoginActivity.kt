@@ -11,7 +11,7 @@ import android.widget.*
 import com.example.kevinlay.planr.MainActivity
 import com.example.kevinlay.planr.PlanrApplication
 import com.example.kevinlay.planr.R
-import com.example.kevinlay.planr.repository.remote.RemoteDbSource
+import com.example.kevinlay.planr.repository.remote.RemoteDataSource
 import com.example.kevinlay.planr.util.into
 import com.google.firebase.database.FirebaseDatabase
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var mProgressBar: ProgressBar
     private lateinit var mSignUp: TextView
 
-    @Inject lateinit var remoteDbSource: RemoteDbSource
+    @Inject lateinit var remoteDbSource: RemoteDataSource
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
@@ -51,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(i)
         }
 
-        remoteDbSource = RemoteDbSource(FirebaseAuth.getInstance(), FirebaseDatabase.getInstance().reference)
+        remoteDbSource = RemoteDataSource(FirebaseAuth.getInstance(), FirebaseDatabase.getInstance().reference)
     }
 
     override fun onStart() {
@@ -99,8 +99,8 @@ class LoginActivity : AppCompatActivity() {
         mProgressBar.visibility = View.VISIBLE
 
         remoteDbSource.signIn(email, password)
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
                 .subscribe({ user ->
                     updateUI(user)
                     mProgressBar.visibility = View.INVISIBLE

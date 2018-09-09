@@ -3,10 +3,8 @@ package com.example.kevinlay.planr.dagger
 import android.arch.persistence.room.Room
 import com.example.kevinlay.planr.PlanrApplication
 import com.example.kevinlay.planr.repository.PlanRepository
-import com.example.kevinlay.planr.repository.local.LocalDatabase
-import com.example.kevinlay.planr.repository.local.EventDao
-import com.example.kevinlay.planr.repository.local.LocalDbSource
-import com.example.kevinlay.planr.repository.remote.RemoteDbSource
+import com.example.kevinlay.planr.repository.local.*
+import com.example.kevinlay.planr.repository.remote.RemoteDataSource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
@@ -27,23 +25,35 @@ class AppModule(application: PlanrApplication) {
     }
 
     @Provides
-    fun provideUserDao(): EventDao {
+    fun provideUserDao(): UserDao {
+        return database.userDao()
+    }
+
+    @Provides
+    fun provideEventDao(): EventDao {
         return database.eventDao()
     }
 
     @Provides
-    fun provideRemoteDbSource(): RemoteDbSource {
-        return RemoteDbSource(FirebaseAuth.getInstance(), FirebaseDatabase.getInstance().reference)
+    fun provideTripDao(): TripDao {
+        return database.tripDao()
     }
 
     @Provides
-    fun provideLocalDbSource(eventDao: EventDao): LocalDbSource {
-        return LocalDbSource(eventDao)
+    fun provideRemoteDataSource(): RemoteDataSource {
+        return RemoteDataSource(FirebaseAuth.getInstance(), FirebaseDatabase.getInstance().reference)
     }
 
     @Provides
-    fun providePlanRepository(remoteDbSource: RemoteDbSource,
-                              localDbSource: LocalDbSource): PlanRepository {
+    fun provideLocalDataSourcee(userDao: UserDao,
+                                eventDao: EventDao,
+                                tripDao: TripDao): LocalDataSource {
+        return LocalDataSource(userDao, eventDao, tripDao)
+    }
+
+    @Provides
+    fun providePlanRepository(remoteDbSource: RemoteDataSource,
+                              localDbSource: LocalDataSource): PlanRepository {
         return PlanRepository(remoteDbSource, localDbSource)
     }
 }
