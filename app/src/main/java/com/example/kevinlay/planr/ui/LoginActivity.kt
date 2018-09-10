@@ -11,6 +11,7 @@ import android.widget.*
 import com.example.kevinlay.planr.MainActivity
 import com.example.kevinlay.planr.PlanrApplication
 import com.example.kevinlay.planr.R
+import com.example.kevinlay.planr.repository.PlanRepository
 import com.example.kevinlay.planr.repository.remote.RemoteDataSource
 import com.example.kevinlay.planr.util.into
 import com.google.firebase.database.FirebaseDatabase
@@ -28,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var mProgressBar: ProgressBar
     private lateinit var mSignUp: TextView
 
-    @Inject lateinit var remoteDbSource: RemoteDataSource
+    @Inject lateinit var planRepository: PlanRepository
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
@@ -50,13 +51,15 @@ class LoginActivity : AppCompatActivity() {
             val i = Intent(this@LoginActivity, RegisterActivity::class.java)
             startActivity(i)
         }
-
-        remoteDbSource = RemoteDataSource(FirebaseAuth.getInstance(), FirebaseDatabase.getInstance().reference)
     }
 
     override fun onStart() {
         super.onStart()
-        updateUI(remoteDbSource.firebaseAuth.currentUser)
+        if (planRepository.remoteDataSource.firebaseAuth.currentUser == null) {
+            updateUI(false)
+        } else {
+            updateUI(true)
+        }
     }
 
     private fun validateForm(): Boolean {
@@ -82,10 +85,10 @@ class LoginActivity : AppCompatActivity() {
         return isValid
     }
 
-    private fun updateUI(user: FirebaseUser?) {
+    private fun updateUI(isLoginSuccessfull: Boolean) {
         mProgressBar.visibility = View.INVISIBLE
 
-        if (user != null) {
+        if (isLoginSuccessfull) {
             val i = Intent(this@LoginActivity, MainActivity::class.java)
             startActivity(i)
         }
@@ -98,11 +101,11 @@ class LoginActivity : AppCompatActivity() {
 
         mProgressBar.visibility = View.VISIBLE
 
-        remoteDbSource.signIn(email, password)
+        planRepository.signInAndSaveUser(email, password)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe({ user ->
-                    updateUI(user)
+                .subscribe({ _ ->
+                    updateUI(true)
                     mProgressBar.visibility = View.INVISIBLE
                 }, { error ->
                     showToast(error.message!!)

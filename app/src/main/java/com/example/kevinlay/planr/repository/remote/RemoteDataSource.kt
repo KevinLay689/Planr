@@ -15,6 +15,22 @@ import io.reactivex.Single
 class RemoteDataSource(val firebaseAuth: FirebaseAuth,
                        val databaseReference: DatabaseReference) {
 
+    fun getUser(userId: String): Single<User> {
+        return Single.create { emitter ->
+            databaseReference.child(RemoteDatabaseConstants.usersColumn)
+                    .child(userId)
+                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onCancelled(error: DatabaseError) {
+                            emitter.onError(Throwable())
+                        }
+
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            emitter.onSuccess(snapshot.getValue(User::class.java) ?: User())
+                        }
+                    })
+        }
+    }
+
     fun getUserTrips(userId: String): Single<List<Trip>> {
         return Single.create { emitter ->
             databaseReference.child(RemoteDatabaseConstants.usersColumn)

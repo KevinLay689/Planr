@@ -12,7 +12,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.kevinlay.planr.repository.PlanRepository
-import com.example.kevinlay.planr.repository.local.LocalDataSource
 import com.example.kevinlay.planr.ui.home.HomeFragment
 import com.example.kevinlay.planr.ui.LoginActivity
 import com.example.kevinlay.planr.util.into
@@ -26,7 +25,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mDrawerLayout: DrawerLayout
 
-    @Inject lateinit var localDataSource: LocalDataSource
     @Inject lateinit var planRepository: PlanRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
