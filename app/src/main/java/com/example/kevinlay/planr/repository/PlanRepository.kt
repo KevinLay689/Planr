@@ -45,4 +45,11 @@ class PlanRepository(val remoteDataSource: RemoteDataSource,
         return localDataSource.saveEvent(event)
                 .andThen(remoteDataSource.insertEvent(event))
     }
+
+    /**
+     * TODO: Need to properly set up local room db to be the cache
+     */
+    fun getTrips(location: String): Single<List<Trip>> {
+        return remoteDataSource.getTripsByArea(location)
+    }
 }

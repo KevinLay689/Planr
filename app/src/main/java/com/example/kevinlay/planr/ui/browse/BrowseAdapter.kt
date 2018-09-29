@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.example.kevinlay.planr.R
 import com.example.kevinlay.planr.repository.model.Trip
 
-class BrowseAdapter(val trips: List<Trip>): RecyclerView.Adapter<BrowseViewHolder>() {
+class BrowseAdapter(var trips: List<Trip>): RecyclerView.Adapter<BrowseViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrowseViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_view_browse, parent, false)

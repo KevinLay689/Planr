@@ -11,5 +11,6 @@ data class Trip(@PrimaryKey var tripId: String = "",
                 var ownerId: String = "",
                 var startDay: String = "",
                 var endDay: String = "",
+                var location: String = "",
                 @Ignore var eventList: List<Event>? = null,
                 @Ignore var usersAttendingList: List<User>? = null)

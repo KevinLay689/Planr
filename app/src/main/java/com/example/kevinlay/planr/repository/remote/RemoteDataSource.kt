@@ -14,6 +14,7 @@ import com.google.firebase.database.ValueEventListener
 import io.reactivex.Completable
 import io.reactivex.Single
 import java.util.*
+import kotlin.collections.ArrayList
 
 class RemoteDataSource(val firebaseAuth: FirebaseAuth,
                        val databaseReference: DatabaseReference) {
@@ -87,8 +88,35 @@ class RemoteDataSource(val firebaseAuth: FirebaseAuth,
                         }
 
                         override fun onDataChange(snapshot: DataSnapshot) {
-                            Log.i("Trips Events" , snapshot.getValue(User::class.java)?.toString())
+                            Log.i("Trips Events" , snapshot.getValue(Trip::class.java)?.toString())
                             emitter.onSuccess(snapshot.getValue(Trip::class.java)?.eventList ?: arrayListOf())
+                        }
+                    })
+        }
+    }
+
+    fun getTripsByArea(location: String): Single<List<Trip>> {
+        val trips: ArrayList<Trip> = ArrayList()
+
+        return Single.create { emitter ->
+            databaseReference.child(RemoteDatabaseConstants.tripListColumn)
+                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onCancelled(error: DatabaseError) {
+                            emitter.onError(Throwable())
+                        }
+
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            Log.i("Trips by area" , snapshot.getValue(Trip::class.java)?.toString())
+
+                            for (snap: DataSnapshot in snapshot.children) {
+                                val tempTrip = snap.getValue(Trip::class.java)
+                                if (tempTrip != null
+                                        && !tempTrip.isPrivate
+                                        && tempTrip.location == location) {
+                                    trips.add(tempTrip)
+                                }
+                            }
+                            emitter.onSuccess(trips)
                         }
                     })
         }
