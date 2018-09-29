@@ -1,9 +1,7 @@
-package com.example.kevinlay.planr.ui
+package com.example.kevinlay.planr.ui.login
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import android.content.Intent
 import android.text.TextUtils
 import android.view.View
@@ -12,9 +10,7 @@ import com.example.kevinlay.planr.MainActivity
 import com.example.kevinlay.planr.PlanrApplication
 import com.example.kevinlay.planr.R
 import com.example.kevinlay.planr.repository.PlanRepository
-import com.example.kevinlay.planr.repository.remote.RemoteDataSource
 import com.example.kevinlay.planr.util.into
-import com.google.firebase.database.FirebaseDatabase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

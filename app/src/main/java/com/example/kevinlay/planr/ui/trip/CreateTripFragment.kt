@@ -1,4 +1,4 @@
-package com.example.kevinlay.planr.ui.home
+package com.example.kevinlay.planr.ui.trip
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -17,6 +17,8 @@ import com.example.kevinlay.planr.R
 import com.example.kevinlay.planr.repository.PlanRepository
 import com.example.kevinlay.planr.repository.model.Event
 import com.example.kevinlay.planr.repository.model.Trip
+import com.example.kevinlay.planr.ui.event.AddEventDialogFragment
+import com.example.kevinlay.planr.ui.event.EventsAdapter
 import com.example.kevinlay.planr.util.into
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

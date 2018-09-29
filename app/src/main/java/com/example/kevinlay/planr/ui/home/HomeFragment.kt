@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.kevinlay.planr.MainActivity
 import com.example.kevinlay.planr.R
+import com.example.kevinlay.planr.ui.trip.TripsAdapter
 
 /**
  * Created by kevinlay on 8/26/18.

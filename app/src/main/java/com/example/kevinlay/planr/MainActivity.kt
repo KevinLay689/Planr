@@ -14,9 +14,10 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.example.kevinlay.planr.repository.PlanRepository
+import com.example.kevinlay.planr.ui.browse.BrowseFragment
 import com.example.kevinlay.planr.ui.home.HomeFragment
-import com.example.kevinlay.planr.ui.LoginActivity
-import com.example.kevinlay.planr.ui.home.CreateTripFragment
+import com.example.kevinlay.planr.ui.login.LoginActivity
+import com.example.kevinlay.planr.ui.trip.CreateTripFragment
 import com.example.kevinlay.planr.util.into
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -87,7 +88,11 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 R.id.nav_browse -> {
-                    Toast.makeText(this, "Browse clicked", Toast.LENGTH_SHORT).show()
+                    if (supportFragmentManager.findFragmentByTag(browseFragmentTag) != null) {
+                        supportFragmentManager.beginTransaction()
+                                .replace(R.id.frame, BrowseFragment(), browseFragmentTag)
+                                .commit()
+                    }
                 }
                 R.id.nav_settings -> {
                     Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show()
@@ -139,6 +144,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val homeFragmentTag: String = "homeFragment"
+        const val browseFragmentTag: String = "browseFragment"
         const val createTripFragmentTag: String = "createTripFragment"
         const val TAG: String = "HomeActivity"
     }

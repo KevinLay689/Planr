@@ -1,4 +1,4 @@
-package com.example.kevinlay.planr.ui.home
+package com.example.kevinlay.planr.ui.trip
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -13,6 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.kevinlay.planr.R
 import com.example.kevinlay.planr.repository.model.Trip
 import com.example.kevinlay.planr.repository.model.User
+import com.example.kevinlay.planr.ui.user.UsersAdapter
 
 class TripsAdapter(private val trips: List<Trip>): RecyclerView.Adapter<TripsViewHolder>() {
 

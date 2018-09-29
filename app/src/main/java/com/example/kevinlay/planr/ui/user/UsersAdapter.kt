@@ -1,4 +1,4 @@
-package com.example.kevinlay.planr.ui.home
+package com.example.kevinlay.planr.ui.user
 
 import android.graphics.BitmapFactory
 import android.support.v7.widget.RecyclerView

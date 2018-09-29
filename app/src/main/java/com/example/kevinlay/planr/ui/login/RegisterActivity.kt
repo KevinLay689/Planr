@@ -1,4 +1,4 @@
-package com.example.kevinlay.planr.ui
+package com.example.kevinlay.planr.ui.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,10 +13,7 @@ import com.example.kevinlay.planr.PlanrApplication
 import com.example.kevinlay.planr.R
 import com.example.kevinlay.planr.repository.PlanRepository
 import com.example.kevinlay.planr.repository.local.LocalDataSource
-import com.example.kevinlay.planr.repository.model.User
-import com.example.kevinlay.planr.repository.remote.RemoteDataSource
 import com.example.kevinlay.planr.util.into
-import io.reactivex.Completable
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
