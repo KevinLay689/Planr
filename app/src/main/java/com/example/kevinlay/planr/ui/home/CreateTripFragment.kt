@@ -17,7 +17,9 @@ import com.example.kevinlay.planr.R
 import com.example.kevinlay.planr.repository.PlanRepository
 import com.example.kevinlay.planr.repository.model.Event
 import com.example.kevinlay.planr.repository.model.Trip
+import com.example.kevinlay.planr.util.into
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
@@ -31,14 +33,14 @@ class CreateTripFragment: Fragment(), AddEventDialogFragment.EventDialogListener
     private lateinit var tripName: EditText
     private lateinit var privateCheckBox: CheckBox
 
-    private lateinit var trip: Trip
     private val events: ArrayList<Event> = ArrayList()
 
     @Inject lateinit var planRepository: PlanRepository
 
+    private val disposable: CompositeDisposable = CompositeDisposable()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val planrApplication = context?.applicationContext as PlanrApplication
 
         planrApplication.appComponent.inject(this)
@@ -73,25 +75,42 @@ class CreateTripFragment: Fragment(), AddEventDialogFragment.EventDialogListener
         }
 
         createTripButton.setOnClickListener { _ ->
-            trip = Trip(tripName = tripName.text.toString(),
-                    isPrivate = privateCheckBox.isChecked,
-                    eventList = events)
-
-            planRepository.saveTrip(trip)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe ({
-                        Toast.makeText(activity, "Trip Saved!", Toast.LENGTH_LONG).show() },
-                            { error ->
-                                Toast.makeText(activity, "Error: $error", Toast.LENGTH_LONG).show()
-                            })
+            saveTripAndEvents()
         }
 
         return view
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable.clear()
+    }
+
     override fun onDialogPositiveClick(event: Event) {
         events.add(event)
         eventAdapter.notifyItemInserted(events.size)
+    }
+
+
+    private fun saveTripAndEvents() {
+        val trip = Trip(tripId = UUID.randomUUID().toString(),
+                tripName = tripName.text.toString(),
+                isPrivate = privateCheckBox.isChecked,
+                eventList = events)
+
+        planRepository.saveTrip(trip)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe (Toast.makeText(activity, "Trip Saved!", Toast.LENGTH_LONG)::show)
+                           {Toast.makeText(activity, "Error: $it", Toast.LENGTH_LONG).show()}
+                .into(disposable)
+
+        trip.eventList?.forEach { event ->
+            planRepository.saveEvent(event)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe()
+                    .into(disposable)
+        }
     }
 }

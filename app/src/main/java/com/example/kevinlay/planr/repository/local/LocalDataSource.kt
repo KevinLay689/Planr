@@ -1,5 +1,6 @@
 package com.example.kevinlay.planr.repository.local
 
+import com.example.kevinlay.planr.repository.model.Event
 import com.example.kevinlay.planr.repository.model.Trip
 import com.example.kevinlay.planr.repository.model.User
 import io.reactivex.Completable
@@ -22,5 +23,18 @@ class LocalDataSource(private val userDao: UserDao,
     fun saveTrip(trip: Trip): Completable {
         return Completable.fromAction { tripDao.saveTrip(trip) }
                 .subscribeOn(Schedulers.io())
+    }
+
+    fun getTrips(ownerId: String): Single<List<Trip>> {
+        return tripDao.getTripsByOwner(ownerId)
+    }
+
+    fun saveEvent(event: Event): Completable {
+        return Completable.fromAction { eventDao.saveEvent(event) }
+                .subscribeOn(Schedulers.io())
+    }
+
+    fun getEventByTrip(tripId: String): Single<List<Event>> {
+        return eventDao.getEventByTrip(tripId)
     }
 }

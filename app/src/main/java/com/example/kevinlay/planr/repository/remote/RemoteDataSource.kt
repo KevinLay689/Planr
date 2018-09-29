@@ -1,6 +1,7 @@
 package com.example.kevinlay.planr.repository.remote
 
 import android.util.Log
+import com.example.kevinlay.planr.repository.model.Event
 import com.example.kevinlay.planr.repository.model.Trip
 import com.example.kevinlay.planr.repository.model.User
 import com.example.kevinlay.planr.util.RemoteDatabaseConstants
@@ -71,8 +72,33 @@ class RemoteDataSource(val firebaseAuth: FirebaseAuth,
     fun insertTrip(trip: Trip): Single<String> {
         return Single.create { emitter ->
             databaseReference.child(RemoteDatabaseConstants.tripListColumn)
-                    .child(UUID.randomUUID().toString())
+                    .child(trip.tripId)
                     .setValue(trip) { _, ref -> emitter.onSuccess(ref.key ?: "") }
+        }
+    }
+
+    fun getTripEvents(tripId: String): Single<List<Event>> {
+        return Single.create { emitter ->
+            databaseReference.child(RemoteDatabaseConstants.tripListColumn)
+                    .child(tripId)
+                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onCancelled(error: DatabaseError) {
+                            emitter.onError(Throwable())
+                        }
+
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            Log.i("Trips Events" , snapshot.getValue(User::class.java)?.toString())
+                            emitter.onSuccess(snapshot.getValue(Trip::class.java)?.eventList ?: arrayListOf())
+                        }
+                    })
+        }
+    }
+
+    fun insertEvent(event: Event): Completable {
+        return Completable.create { emitter ->
+            databaseReference.child(RemoteDatabaseConstants.eventColumn)
+                    .child(event.eventId)
+                    .setValue(event) { _, _ -> emitter.onComplete() }
         }
     }
 
