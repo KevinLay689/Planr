@@ -1,6 +1,7 @@
 package com.example.kevinlay.planr.repository
 
 import com.example.kevinlay.planr.repository.local.LocalDataSource
+import com.example.kevinlay.planr.repository.model.Trip
 import com.example.kevinlay.planr.repository.remote.RemoteDataSource
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -27,5 +28,11 @@ class PlanRepository(val remoteDataSource: RemoteDataSource,
                 }.flatMapCompletable { userDetails ->
                     localDataSource.saveUser(userDetails)
                 }.andThen(Single.just(true))
+    }
+
+
+    fun saveTrip(trip: Trip): Completable {
+        return localDataSource.saveTrip(trip)
+                .andThen(remoteDataSource.insertUserTrip(trip))
     }
 }

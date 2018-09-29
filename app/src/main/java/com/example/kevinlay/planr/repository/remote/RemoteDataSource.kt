@@ -1,5 +1,6 @@
 package com.example.kevinlay.planr.repository.remote
 
+import android.util.Log
 import com.example.kevinlay.planr.repository.model.Trip
 import com.example.kevinlay.planr.repository.model.User
 import com.example.kevinlay.planr.util.RemoteDatabaseConstants
@@ -11,6 +12,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import io.reactivex.Completable
 import io.reactivex.Single
+import java.util.*
 
 class RemoteDataSource(val firebaseAuth: FirebaseAuth,
                        val databaseReference: DatabaseReference) {
@@ -41,25 +43,37 @@ class RemoteDataSource(val firebaseAuth: FirebaseAuth,
                         }
 
                         override fun onDataChange(snapshot: DataSnapshot) {
-                            emitter.onSuccess(snapshot.getValue(User::class.java)?.tripList
-                                    ?: arrayListOf())
+                            Log.i("Trips list" , snapshot.getValue(User::class.java)?.toString())
+
+                            emitter.onSuccess(snapshot.getValue(User::class.java)?.trips ?: arrayListOf())
                         }
                     })
         }
     }
 
-    fun insertUserTrip(userId: String, trip: Trip): Completable {
-        return getUserTrips(userId)
-                .flatMapCompletable { trips ->
-                    val arrayListTrips = ArrayList(trips)
-                    arrayListTrips.add(trip)
-                    return@flatMapCompletable Completable.create { emitter ->
-                        databaseReference.child(RemoteDatabaseConstants.usersColumn)
-                                .child(userId)
-                                .child(RemoteDatabaseConstants.tripListColumn)
-                                .setValue(arrayListTrips) { _, _ -> emitter.onComplete() }
+    fun insertUserTrip(trip: Trip): Completable {
+        return insertTrip(trip).flatMapCompletable { key ->
+            getUserTrips(firebaseAuth.uid!!)
+                    .flatMapCompletable { trips ->
+                        val arrayListTrips = ArrayList(trips)
+                        trip.tripId = key
+                        arrayListTrips.add(trip)
+                        return@flatMapCompletable Completable.create { emitter ->
+                            databaseReference.child(RemoteDatabaseConstants.usersColumn)
+                                    .child(firebaseAuth.uid!!)
+                                    .child(RemoteDatabaseConstants.tripListColumn)
+                                    .setValue(arrayListTrips) { _, _ -> emitter.onComplete() }
+                        }
                     }
-                }
+        }
+    }
+
+    fun insertTrip(trip: Trip): Single<String> {
+        return Single.create { emitter ->
+            databaseReference.child(RemoteDatabaseConstants.tripListColumn)
+                    .child(UUID.randomUUID().toString())
+                    .setValue(trip) { _, ref -> emitter.onSuccess(ref.key ?: "") }
+        }
     }
 
     fun signIn(email: String, password: String): Single<FirebaseUser> {

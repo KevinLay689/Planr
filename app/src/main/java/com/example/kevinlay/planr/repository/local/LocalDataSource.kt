@@ -1,5 +1,6 @@
 package com.example.kevinlay.planr.repository.local
 
+import com.example.kevinlay.planr.repository.model.Trip
 import com.example.kevinlay.planr.repository.model.User
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -16,5 +17,10 @@ class LocalDataSource(private val userDao: UserDao,
 
     fun getUser(userId: String): Single<User> {
         return userDao.getUser(userId)
+    }
+
+    fun saveTrip(trip: Trip): Completable {
+        return Completable.fromAction { tripDao.saveTrip(trip) }
+                .subscribeOn(Schedulers.io())
     }
 }

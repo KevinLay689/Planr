@@ -37,6 +37,7 @@ dependencies {
 
     // dagger 2
     implementation "com.google.dagger:dagger:$dagger2Version"
+    implementation 'com.android.support:support-v4:27.1.1'
     kapt "com.google.dagger:dagger-compiler:$dagger2Version"
 
     // rx

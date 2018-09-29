@@ -12,4 +12,4 @@ data class User(@PrimaryKey var userId: String = "",
                 var location: String = "",
                 var email: String = "",
                 @Ignore var userImage: Bitmap? = null,
-                @Ignore var tripList: List<Trip> = ArrayList())
+                @Ignore var trips: List<Trip> = ArrayList())
