@@ -98,7 +98,8 @@ class CreateTripFragment: Fragment(), AddEventDialogFragment.EventDialogListener
         val trip = Trip(tripId = UUID.randomUUID().toString(),
                 tripName = tripName.text.toString(),
                 isPrivate = privateCheckBox.isChecked,
-                eventList = events)
+                eventList = events,
+                ownerId = planRepository.remoteDataSource.firebaseAuth.uid ?: "null")
 
         planRepository.saveTrip(trip)
                 .subscribeOn(Schedulers.io())

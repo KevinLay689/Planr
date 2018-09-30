@@ -33,18 +33,20 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/privateCheckBox"/>
+        app:layout_constraintTop_toBottomOf="@id/privateCheckBox"
+        app:layout_constraintBottom_toTopOf="@id/activitiesText"/>
 
     <TextView
         android:id="@+id/activitiesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="6dp"
         android:text="Itinerary"
         android:textColor="@android:color/black"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/ls2"
-        app:layout_constraintStart_toStartOf="@id/tripName" />
+        app:layout_constraintTop_toBottomOf="@id/privateCheckBox"
+        app:layout_constraintStart_toStartOf="@id/privateCheckBox" />
 
     <View
         android:id="@+id/ls3"
@@ -60,9 +62,10 @@
         android:id="@+id/eventList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="10dp"
-        app:layout_constraintTop_toBottomOf="@id/ls3"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/activitiesText"
+        app:layout_constraintStart_toStartOf="@id/activitiesText"
         app:layout_constraintBottom_toTopOf="@id/addEvent"/>
 
     <Button

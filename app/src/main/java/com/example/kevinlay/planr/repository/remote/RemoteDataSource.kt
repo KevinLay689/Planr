@@ -121,6 +121,32 @@ class RemoteDataSource(val firebaseAuth: FirebaseAuth,
         }
     }
 
+    fun getTripsByUser(userId: String): Single<List<Trip>> {
+        val trips: ArrayList<Trip> = ArrayList()
+
+        return Single.create { emitter ->
+            databaseReference.child(RemoteDatabaseConstants.tripListColumn)
+                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onCancelled(error: DatabaseError) {
+                            emitter.onError(Throwable())
+                        }
+
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            Log.i("My Trips" , snapshot.getValue(Trip::class.java)?.toString())
+
+                            for (snap: DataSnapshot in snapshot.children) {
+                                val tempTrip = snap.getValue(Trip::class.java)
+                                if (tempTrip != null
+                                        && tempTrip.ownerId == userId) {
+                                    trips.add(tempTrip)
+                                }
+                            }
+                            emitter.onSuccess(trips)
+                        }
+                    })
+        }
+    }
+
     fun insertEvent(event: Event): Completable {
         return Completable.create { emitter ->
             databaseReference.child(RemoteDatabaseConstants.eventColumn)

@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
                     headerName.text = "${user.firstName} ${user.lastName}"
                     headerLocation.text = "${user.location}"
                     val drawable = TextDrawable.builder()
-                            .buildRound("${user.firstName[0]}", Color.BLUE)
+                            .buildRound("${user.firstName[0]}", R.color.material_blue_grey_800)
                     headerAvatar.setImageDrawable(drawable)
 
                 }) {error ->
