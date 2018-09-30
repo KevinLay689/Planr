@@ -1,6 +1,7 @@
 package com.example.kevinlay.planr
 
 import android.content.Intent
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -12,6 +13,8 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import com.example.kevinlay.planr.repository.PlanRepository
 import com.example.kevinlay.planr.ui.browse.BrowseFragment
@@ -24,6 +27,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
+import com.amulyakhare.textdrawable.TextDrawable
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,6 +48,8 @@ class MainActivity : AppCompatActivity() {
         floatingActionButton = findViewById(R.id.fab)
 
         setupToolbar()
+
+        setupNavigationView()
 
         setupFab()
 
@@ -70,10 +78,32 @@ class MainActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_menu)
         }
+    }
+
+    private fun setupNavigationView() {
 
         val navigationView: NavigationView = findViewById(R.id.nav_view)
-        navigationView.setCheckedItem(R.id.nav_home)
 
+        val headerView = navigationView.getHeaderView(0)
+        val headerName = headerView.findViewById<TextView>(R.id.name)
+        val headerAvatar = headerView.findViewById<ImageView>(R.id.avatar)
+        val headerLocation = headerView.findViewById<TextView>(R.id.location)
+
+        planRepository.getUser()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ user ->
+                    headerName.text = "${user.firstName} ${user.lastName}"
+                    headerLocation.text = "${user.location}"
+                    val drawable = TextDrawable.builder()
+                            .buildRound("${user.firstName[0]}", Color.BLUE)
+                    headerAvatar.setImageDrawable(drawable)
+
+                }) {error ->
+                    Toast.makeText(this, "$error", Toast.LENGTH_SHORT).show()
+                }
+
+        navigationView.setCheckedItem(R.id.nav_home)
         navigationView.setNavigationItemSelectedListener { menuItem ->
 
             menuItem.isChecked = true
@@ -81,29 +111,17 @@ class MainActivity : AppCompatActivity() {
 
             when (menuItem.itemId) {
                 R.id.nav_home -> {
-                    if (supportFragmentManager.findFragmentByTag(homeFragmentTag) == null) {
-                        supportFragmentManager.beginTransaction()
-                                .replace(R.id.frame, HomeFragment(), homeFragmentTag)
-                                .commit()
-                    }
+                    supportFragmentManager.beginTransaction()
+                            .replace(R.id.frame, HomeFragment(), homeFragmentTag)
+                            .commit()
                 }
                 R.id.nav_browse -> {
-                    if (supportFragmentManager.findFragmentByTag(browseFragmentTag) == null) {
-                        supportFragmentManager.beginTransaction()
-                                .replace(R.id.frame, BrowseFragment(), browseFragmentTag)
-                                .commit()
-                    }
+                    supportFragmentManager.beginTransaction()
+                            .replace(R.id.frame, BrowseFragment(), browseFragmentTag)
+                            .commit()
                 }
                 R.id.nav_settings -> {
                     Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show()
-                    val disposable = CompositeDisposable()
-                    planRepository.localDataSource.getUser(planRepository.remoteDataSource.firebaseAuth.uid!!)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe { user ->
-                                Log.i(TAG, "userId is: ${user.userId} email is ${user.email}")
-                            }.into(disposable)
-
                 }
 
                 R.id.nav_signout -> {

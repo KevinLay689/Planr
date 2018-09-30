@@ -4,11 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/CardView.Light"
-    android:layout_width="120dp"
+    android:layout_width="170dp"
     android:layout_height="170dp"
     android:layout_marginTop="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
     android:elevation="8dp"
     app:cardCornerRadius="10dp"
     tools:ignore="ContentDescription">
@@ -21,6 +22,7 @@
             android:id="@+id/headerBrowseImage"
             android:layout_width="match_parent"
             android:layout_height="90dp"
+            android:scaleType="centerCrop"
             android:background="@color/colorPrimary"
             app:layout_constraintTop_toTopOf="parent"/>
 

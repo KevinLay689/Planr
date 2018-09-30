@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.kevinlay.planr.MainActivity
 import com.example.kevinlay.planr.PlanrApplication
 import com.example.kevinlay.planr.R
 import com.example.kevinlay.planr.repository.PlanRepository
@@ -34,10 +35,17 @@ class BrowseFragment: Fragment() {
         val planrApplication = context?.applicationContext as PlanrApplication
 
         planrApplication.appComponent.inject(this)
+
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_browse, container, false)
+
+        val mainActivity = activity
+        if (mainActivity is MainActivity) {
+            mainActivity.hideFab()
+        }
 
         nearMeRecyclerView = view.findViewById(R.id.nearMeReyclerView)
         trendingRecyclerView = view.findViewById(R.id.trendingRecyclerView)

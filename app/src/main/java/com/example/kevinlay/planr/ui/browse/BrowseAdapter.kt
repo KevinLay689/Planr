@@ -25,7 +25,6 @@ class BrowseAdapter(var trips: List<Trip>): RecyclerView.Adapter<BrowseViewHolde
             event.cost
         }?.sum().toString()
     }
-
 }
 
 class BrowseViewHolder(val view: View): RecyclerView.ViewHolder(view) {

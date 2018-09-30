@@ -3,6 +3,7 @@ package com.example.kevinlay.planr.repository
 import com.example.kevinlay.planr.repository.local.LocalDataSource
 import com.example.kevinlay.planr.repository.model.Event
 import com.example.kevinlay.planr.repository.model.Trip
+import com.example.kevinlay.planr.repository.model.User
 import com.example.kevinlay.planr.repository.remote.RemoteDataSource
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -25,6 +26,10 @@ class PlanRepository(val remoteDataSource: RemoteDataSource,
                 .flatMapCompletable { user ->
                     localDataSource.saveUser(user)
                 }
+    }
+
+    fun getUser(): Single<User> {
+        return localDataSource.getUser(remoteDataSource.firebaseAuth.uid!!)
     }
 
     fun signInAndSaveUser(email: String, password: String): Single<Boolean> {

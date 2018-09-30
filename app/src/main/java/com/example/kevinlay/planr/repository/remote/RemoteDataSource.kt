@@ -13,7 +13,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import io.reactivex.Completable
 import io.reactivex.Single
-import java.util.*
 import kotlin.collections.ArrayList
 
 class RemoteDataSource(val firebaseAuth: FirebaseAuth,
